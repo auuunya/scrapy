@@ -3,6 +3,7 @@ import requests
 import re
 from requests.exceptions import RequestException
 import json
+#响应网站
 def get_one_page(url):
     try:
         response=requests.get(url)
@@ -11,6 +12,7 @@ def get_one_page(url):
         return None
     except RequestException:
         return None
+#正则获取匹配内容
 def get_link(html):
     patten=re.compile('<dd>.*?board-index.*?>(\d+)</i>.*?data-src="(.*?)".*?name">'\
                   '<a.*?>(.*?)</a>.*?star">(.*?)</p>.*?releasetime">(.*?)</p>'\
@@ -25,7 +27,7 @@ def get_link(html):
             'time':item[4][5:],
             'score':item[5]+item[6]
             }
-    
+#文件保存，注意编码问题
 def save_content(content):
     with open('movie.txt','a',encoding='utf-8') as f:
         f.write(json.dumps(content,ensure_ascii=False)+'\n')
